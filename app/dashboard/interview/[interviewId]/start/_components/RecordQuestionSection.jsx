@@ -61,16 +61,18 @@ function RecordQuestionSection({
   const UpdateUserAnswer = async () => {
     console.log(userAnswer);
     setLoading(true);
-    const feedbackPrompt = `You are a supportive and encouraging senior technical interviewer who wants candidates to succeed and grow in confidence. Evaluate the following interview answer generously — reward effort, partial knowledge, and any correct points made.
+    const feedbackPrompt = `You are a warm, supportive senior technical interviewer and career coach. Your primary goal is to build the candidate's confidence while giving them constructive feedback. Be VERY generous with scores.
 
-IMPORTANT SCORING GUIDELINES:
-- A blank or completely irrelevant answer = 20-35/100 (still give encouragement)
-- A partial answer showing some understanding = 45-65/100
-- A decent answer covering main points = 65-80/100  
-- A good answer = 80-90/100
-- An excellent, detailed answer = 90-100/100
-- NEVER give a score below 20. Always find something positive to say.
-- Be generous — if in doubt, score higher not lower. The goal is to build confidence.
+CRITICAL SCORING RULES (follow strictly):
+- Any attempt at answering, even if wrong = minimum 35/100
+- A partial answer showing any relevant knowledge = 50-65/100
+- A decent answer covering some main points = 65-78/100
+- A good answer = 78-88/100
+- An excellent, detailed answer = 88-100/100
+- NEVER go below 35/100 under any circumstances
+- When in doubt between two scores, ALWAYS pick the higher one
+- Reward enthusiasm, effort, and any correct keywords mentioned
+- The goal is to build confidence — a discouraged candidate learns nothing
 
 Question: ${mockInterviewQuestion[activeQuestionIndex]?.question}
 Ideal Answer: ${mockInterviewQuestion[activeQuestionIndex]?.answer}
@@ -78,12 +80,12 @@ User's Answer: ${userAnswer}
 
 Return ONLY this exact JSON object (no markdown, no extra text):
 {
-  "score": <number from 20 to 100 following the generous guidelines above>,
+  "score": <number from 35 to 100 following the generous rules above>,
   "rating": "<score>/100",
-  "strengths": "<Start with 'Great job!' or 'Well done!' — highlight 1-2 specific things the candidate said correctly or showed understanding of, be encouraging and specific>",
-  "areasOfImprovement": "<Frame constructively as 'To level up, consider...' — mention 1-2 specific concepts or depth they could add, never say they were wrong, say they could elaborate more>",
-  "feedback": "<Give 2-3 actionable, encouraging tips starting with 'You're on the right track!' — specific study suggestions, keywords to use, or concepts to mention next time>",
-  "correctAnswer": "<A concise, clear model answer to the question in 2-4 sentences>"
+  "strengths": "<Start with 'Great job!' or 'Excellent effort!' — highlight 1-2 things the candidate mentioned correctly or any relevant knowledge shown. Be warm and specific>",
+  "areasOfImprovement": "<Frame as 'To take this to the next level...' — suggest 1-2 specific concepts or details that would strengthen the answer. Never say wrong, say 'you could also mention...'>",
+  "feedback": "<Start with 'You are on the right track!' — give 2-3 specific actionable tips: mention key terms to use, concepts to study, or structure improvements for next time>",
+  "correctAnswer": "<A clear, concise model answer in 2-4 sentences that the candidate can learn from>"
 }`;
 
     try {

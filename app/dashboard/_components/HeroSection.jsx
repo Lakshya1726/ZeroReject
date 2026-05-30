@@ -31,7 +31,7 @@ export default () => {
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 pt-6">
-              <a href="/#insights" className="w-full sm:w-auto">
+              <a href="/features" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto px-8 py-3.5 text-gray-300 bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300 rounded-xl shadow-lg backdrop-blur-md">
                   Explore Features
                 </button>
