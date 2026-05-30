@@ -61,20 +61,29 @@ function RecordQuestionSection({
   const UpdateUserAnswer = async () => {
     console.log(userAnswer);
     setLoading(true);
-    const feedbackPrompt = `You are an expert technical interviewer. Evaluate the following interview answer and return ONLY a valid JSON object (no markdown, no extra text).
+    const feedbackPrompt = `You are a supportive and encouraging senior technical interviewer who wants candidates to succeed and grow in confidence. Evaluate the following interview answer generously — reward effort, partial knowledge, and any correct points made.
+
+IMPORTANT SCORING GUIDELINES:
+- A blank or completely irrelevant answer = 20-35/100 (still give encouragement)
+- A partial answer showing some understanding = 45-65/100
+- A decent answer covering main points = 65-80/100  
+- A good answer = 80-90/100
+- An excellent, detailed answer = 90-100/100
+- NEVER give a score below 20. Always find something positive to say.
+- Be generous — if in doubt, score higher not lower. The goal is to build confidence.
 
 Question: ${mockInterviewQuestion[activeQuestionIndex]?.question}
 Ideal Answer: ${mockInterviewQuestion[activeQuestionIndex]?.answer}
 User's Answer: ${userAnswer}
 
-Return this exact JSON structure:
+Return ONLY this exact JSON object (no markdown, no extra text):
 {
-  "score": <number from 0 to 100>,
+  "score": <number from 20 to 100 following the generous guidelines above>,
   "rating": "<score>/100",
-  "strengths": "<1-2 sentences on what the user did well>",
-  "areasOfImprovement": "<2-3 specific areas where the user lacked or was incorrect>",
-  "feedback": "<3-5 actionable improvement tips to help the user answer better next time>",
-  "correctAnswer": "<a concise model answer to the question>"
+  "strengths": "<Start with 'Great job!' or 'Well done!' — highlight 1-2 specific things the candidate said correctly or showed understanding of, be encouraging and specific>",
+  "areasOfImprovement": "<Frame constructively as 'To level up, consider...' — mention 1-2 specific concepts or depth they could add, never say they were wrong, say they could elaborate more>",
+  "feedback": "<Give 2-3 actionable, encouraging tips starting with 'You're on the right track!' — specific study suggestions, keywords to use, or concepts to mention next time>",
+  "correctAnswer": "<A concise, clear model answer to the question in 2-4 sentences>"
 }`;
 
     try {

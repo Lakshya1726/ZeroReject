@@ -36,7 +36,7 @@ export default () => {
                   Explore Features
                 </button>
               </a>
-              <a href="/sign-up" className="w-full sm:w-auto">
+              <a href="/dashboard" className="w-full sm:w-auto">
                 <button className="flex items-center justify-center gap-x-2 w-full sm:w-auto px-8 py-3.5 text-white font-bold bg-gradient-to-r from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 transition-all duration-300 rounded-xl neon-border">
                   Launch Dashboard
                   <svg

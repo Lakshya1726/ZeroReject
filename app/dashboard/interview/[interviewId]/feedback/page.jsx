@@ -115,7 +115,7 @@ function Feedback({ params }) {
               Interview Complete!
             </h1>
             <p className="text-gray-400 mt-2 text-sm">
-              Here is your personalized performance analysis
+              Great work completing the interview! Here's how you performed 🚀
             </p>
           </div>
 
@@ -131,10 +131,10 @@ function Feedback({ params }) {
                 {overallScore}
                 <span className="text-3xl text-gray-500">/100</span>
               </div>
-              <span
+            <span
                 className={`px-4 py-1 rounded-full text-sm font-semibold border ${getScoreBg(overallScore)} ${getScoreColor(overallScore)}`}
               >
-                {getScoreLabel(overallScore)}
+                {overallScore >= 80 ? "🏆 Excellent" : overallScore >= 60 ? "👍 Good" : overallScore >= 40 ? "📈 Keep Going" : "💪 Keep Practicing"}
               </span>
               <div className="w-full bg-gray-800 rounded-full h-3 mt-2">
                 <div
@@ -278,7 +278,7 @@ function Feedback({ params }) {
                         <div className="rounded-lg border border-orange-500/30 bg-orange-500/10 p-4">
                           <h3 className="text-xs text-orange-400 uppercase tracking-wider mb-2 flex items-center gap-2">
                             <Target className="w-4 h-4" />
-                            Where You Lacked
+                            Level Up On
                           </h3>
                           <p className="text-orange-200 text-sm leading-relaxed">
                             {richFeedback.areasOfImprovement}
