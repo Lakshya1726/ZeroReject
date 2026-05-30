@@ -11,7 +11,6 @@ import {
   Star,
   Building2,
   GraduationCap,
-  Rocket,
   Lock,
 } from "lucide-react";
 
@@ -90,30 +89,30 @@ const comingSoonFeatures = [
     gradient: "from-pink-500 to-orange-400",
   },
   {
-    icon: <Mic className="w-8 h-8" />,
-    title: "Live Voice AI Interviewer",
+    icon: <FileText className="w-8 h-8" />,
+    title: "Resume + JD Based Interview",
     description:
-      "A fully conversational AI interviewer that speaks questions aloud, listens to your voice responses in real-time, and dynamically follows up based on what you said — just like a real human interviewer would.",
+      "Upload both your resume and the exact Job Description you are applying for — the AI cross-matches your profile against the JD and generates laser-focused questions that test exactly what the company is looking for in that role.",
     points: [
-      "Real-time voice conversation",
-      "Dynamic follow-up questions",
-      "Natural language understanding",
-      "Full AR avatar with lip-sync",
+      "Upload resume + job description together",
+      "AI identifies skill gaps between JD and resume",
+      "Questions targeting the exact role requirements",
+      "Know what to prepare before the real interview",
     ],
     gradient: "from-cyan-500 to-purple-500",
   },
   {
-    icon: <Rocket className="w-8 h-8" />,
-    title: "Interview Analytics Dashboard",
+    icon: <Mic className="w-8 h-8" />,
+    title: "Voice & Body Language Analysis",
     description:
-      "Track your performance over time with detailed analytics — see which topics you struggle with, how your scores have improved, and get a personalized study plan to target your weak areas before your next interview.",
+      "Go beyond just words — our AI analyzes your tone of voice, speaking pace, filler words, and facial expressions via webcam to give you a complete communication score alongside your technical answers.",
     points: [
-      "Score trends over time",
-      "Topic-wise strength/weakness map",
-      "AI-generated study roadmap",
-      "Compare with peer benchmarks",
+      "Real-time tone and confidence scoring",
+      "Filler word detection (umm, like, basically)",
+      "Facial expression and eye contact analysis",
+      "Communication improvement roadmap",
     ],
-    gradient: "from-amber-500 to-red-400",
+    gradient: "from-pink-500 to-orange-400",
   },
 ];
 
