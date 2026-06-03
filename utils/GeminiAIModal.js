@@ -7,9 +7,9 @@ const {
 const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
-// Use gemini-1.5-flash as primary (stable), fallback to gemini-1.5-flash-latest
+// Use gemini-2.0-flash as primary (stable and widely available)
 const model = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash",
+  model: "gemini-2.0-flash",
 });
 
 const generationConfig = {
