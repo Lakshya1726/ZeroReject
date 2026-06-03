@@ -131,12 +131,29 @@ function AddResumeInterview() {
                         Target Job Role
                       </label>
                       <Input
+                        list="job-roles"
                         placeholder="Ex. Software Engineer, Data Scientist"
                         required
                         autoComplete="off"
                         onChange={(event) => setJobPosition(event.target.value)}
                         className="mt-2 bg-gray-800 text-white border-gray-700"
                       />
+                      <datalist id="job-roles">
+                        <option value="Software Engineer" />
+                        <option value="Frontend Developer" />
+                        <option value="Backend Developer" />
+                        <option value="Full Stack Developer" />
+                        <option value="Data Scientist" />
+                        <option value="Data Analyst" />
+                        <option value="Machine Learning Engineer" />
+                        <option value="AI Engineer" />
+                        <option value="Product Manager" />
+                        <option value="UX/UI Designer" />
+                        <option value="DevOps Engineer" />
+                        <option value="Cloud Architect" />
+                        <option value="Cybersecurity Analyst" />
+                        <option value="Business Analyst" />
+                      </datalist>
                     </div>
                     <div className="my-3 mb-5">
                       <label className="text-cyan-400 font-bold">

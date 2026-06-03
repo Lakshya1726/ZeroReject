@@ -9,7 +9,7 @@ function DashboardLayout({ children }) {
     <>
       <div>
         <Header />
-        <div className="mx-5 md:mx-20 lg:mx-36">
+        <div className="mx-5 md:mx-20 lg:mx-36 pt-28">
           <Toaster />
           {children}
         </div>
