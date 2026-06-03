@@ -1,55 +1,35 @@
-const {
-  GoogleGenerativeAI,
-  HarmCategory,
-  HarmBlockThreshold,
-} = require("@google/generative-ai");
+import Groq from "groq-sdk";
 
-const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
-
-// Use gemini-2.0-flash as primary (stable and widely available)
-const model = genAI.getGenerativeModel({
-  model: "gemini-2.0-flash",
+const groq = new Groq({
+  apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
+  dangerouslyAllowBrowser: true, // Needed if this runs on the client side in Next.js
 });
 
-const generationConfig = {
-  temperature: 1,
-  topP: 0.95,
-  topK: 64,
-  maxOutputTokens: 8192,
-  responseMimeType: "text/plain",
-};
+// We keep the export name "chatSession" so we don't have to rewrite 
+// any other files in the codebase that import it.
+export const chatSession = {
+  sendMessage: async (prompt) => {
+    try {
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: "llama3-70b-8192", // Using Llama 3 70B for high quality JSON responses
+        temperature: 0.7,
+        max_tokens: 8192,
+        top_p: 1,
+      });
 
-// Wrapper with automatic retry on 503 overload errors
-const createChatSessionWithRetry = () => {
-  const session = model.startChat({ generationConfig });
+      const responseText = chatCompletion.choices[0]?.message?.content || "";
 
-  const originalSendMessage = session.sendMessage.bind(session);
-
-  session.sendMessage = async (message, retries = 3, delay = 2000) => {
-    for (let attempt = 1; attempt <= retries; attempt++) {
-      try {
-        return await originalSendMessage(message);
-      } catch (error) {
-        const is503 =
-          error?.message?.includes("503") ||
-          error?.message?.includes("high demand") ||
-          error?.message?.includes("overloaded");
-
-        if (is503 && attempt < retries) {
-          console.warn(
-            `Gemini 503 overload — retrying attempt ${attempt + 1}/${retries} in ${delay}ms...`
-          );
-          await new Promise((resolve) => setTimeout(resolve, delay));
-          delay *= 2; // exponential backoff
-        } else {
-          throw error;
-        }
-      }
+      // We mock the exact response object structure that Gemini used,
+      // so the rest of the application (result.response.text()) works seamlessly.
+      return {
+        response: {
+          text: () => responseText,
+        },
+      };
+    } catch (error) {
+      console.error("Groq AI Error:", error);
+      throw error;
     }
-  };
-
-  return session;
+  },
 };
-
-export const chatSession = createChatSessionWithRetry();
