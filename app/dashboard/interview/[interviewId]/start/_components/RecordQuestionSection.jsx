@@ -26,6 +26,7 @@ function RecordQuestionSection({
   mockInterviewQuestion,
   activeQuestionIndex,
   interviewData,
+  onAnswerSaved,
 }) {
   const [userAnswer, setUserAnswer] = useState("");
   const { user } = useUser();
@@ -142,6 +143,7 @@ Return ONLY this exact JSON object (no markdown, no extra text):
           toast("Answer recorded successfully!");
           setUserAnswer("");
           setResults([]);
+          if (onAnswerSaved) onAnswerSaved();
         }
       } else {
         toast("Failed to analyze answer. Please try again.");

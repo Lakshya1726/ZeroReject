@@ -22,6 +22,7 @@ function Feedback({ params }) {
   const [feedbackList, setFeedbackList] = useState([]);
   const [openIndex, setOpenIndex] = useState(null);
   const [overallScore, setOverallScore] = useState(0);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -29,28 +30,35 @@ function Feedback({ params }) {
   }, []);
 
   const GetFeedback = async () => {
-    const result = await db
-      .select()
-      .from(UserAnswer)
-      .where(eq(UserAnswer.mockIdRef, params.interviewId))
-      .orderBy(UserAnswer.id);
+    try {
+      setLoading(true);
+      const result = await db
+        .select()
+        .from(UserAnswer)
+        .where(eq(UserAnswer.mockIdRef, params.interviewId))
+        .orderBy(UserAnswer.id);
 
-    console.log(result);
-    setFeedbackList(result);
+      console.log(result);
+      setFeedbackList(result);
 
-    // Calculate overall score from ratings
-    if (result.length > 0) {
-      let totalScore = 0;
-      let validCount = 0;
-      result.forEach((item) => {
-        const parsed = tryParseRichFeedback(item.feedback);
-        const score = parsed?.score || parseInt(item.rating);
-        if (!isNaN(score)) {
-          totalScore += score;
-          validCount++;
-        }
-      });
-      if (validCount > 0) setOverallScore(Math.round(totalScore / validCount));
+      // Calculate overall score from ratings
+      if (result.length > 0) {
+        let totalScore = 0;
+        let validCount = 0;
+        result.forEach((item) => {
+          const parsed = tryParseRichFeedback(item.feedback);
+          const score = parsed?.score || parseInt(item.rating);
+          if (!isNaN(score)) {
+            totalScore += score;
+            validCount++;
+          }
+        });
+        if (validCount > 0) setOverallScore(Math.round(totalScore / validCount));
+      }
+    } catch (err) {
+      console.error("Error fetching feedback:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,21 +96,49 @@ function Feedback({ params }) {
 
   return (
     <div className="min-h-screen bg-background p-6 md:p-10">
-      {feedbackList?.length === 0 ? (
+      {loading ? (
+        // Loading state
         <div className="flex flex-col items-center justify-center h-[60vh] gap-4">
-          <AlertCircle className="w-16 h-16 text-gray-500" />
-          <h2 className="font-bold text-xl text-gray-400">
-            No Interview Feedback Record Found
-          </h2>
-          <p className="text-gray-500 text-sm">
-            Please complete the interview first to see your feedback.
+          <div className="w-16 h-16 rounded-full border-4 border-cyan-500 border-t-transparent animate-spin" />
+          <p className="text-gray-400 text-sm">Loading your feedback...</p>
+        </div>
+      ) : feedbackList?.length === 0 ? (
+        // Empty state — no answers recorded
+        <div className="flex flex-col items-center justify-center h-[70vh] gap-6 text-center px-4">
+          <div className="w-24 h-24 rounded-full bg-orange-500/10 border-2 border-orange-500/30 flex items-center justify-center">
+            <AlertCircle className="w-12 h-12 text-orange-400" />
+          </div>
+          <div>
+            <h2 className="font-bold text-2xl text-white mb-2">
+              No Answers Recorded Yet
+            </h2>
+            <p className="text-gray-400 text-sm max-w-md">
+              It looks like you ended the interview without recording any answers.
+              Go back and record your answers to each question — then your feedback will appear here!
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button
+              onClick={() =>
+                router.replace(
+                  `/dashboard/interview/${params.interviewId}/start`
+                )
+              }
+              className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold px-8 py-3 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.4)]"
+            >
+              🎤 Go Back & Record Answers
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => router.replace("/dashboard")}
+              className="border-gray-600 text-gray-300 hover:bg-gray-800 px-8 py-3 rounded-xl"
+            >
+              Go to Dashboard
+            </Button>
+          </div>
+          <p className="text-xs text-gray-600">
+            Tip: Record at least one answer to see your performance score.
           </p>
-          <Button
-            onClick={() => router.replace("/dashboard")}
-            className="bg-cyan-600 hover:bg-cyan-500 text-white"
-          >
-            Go to Dashboard
-          </Button>
         </div>
       ) : (
         <>
