@@ -69,6 +69,7 @@ function StartInterview({ params }) {
           <QuestionSection
             mockInterviewQuestion={mockInterviewQuestion}
             activeQuestionIndex={activeQuestionIndex}
+            interviewData={interviewData}
           />
           {/* Video / Audio Recording */}
           <RecordQuestionSection
