@@ -8,7 +8,9 @@ export const MockInterview = pgTable('mockInterview',{
     jobExperience:varchar('jobExperience').notNull(),
     createdBy:varchar('createdBy').notNull(),
     createdAt: varchar('createdAt'),
-    mockId: varchar('mockId').notNull()
+    mockId: varchar('mockId').notNull(),
+    avatarName: varchar('avatarName').default('Interview Mitra'),
+    interviewDuration: varchar('interviewDuration').default('30'),
 })
 export const UserAnswer = pgTable('userAnswer', {
     id:serial('id').primaryKey(),

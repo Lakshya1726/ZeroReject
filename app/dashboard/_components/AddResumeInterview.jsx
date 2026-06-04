@@ -17,12 +17,16 @@ import { v4 as uuidv4 } from "uuid";
 import { useUser } from "@clerk/nextjs";
 import moment from "moment/moment";
 import { useRouter } from "next/navigation";
+import AvatarSelector from "./AvatarSelector";
+import TimeSlotsSelector, { getQuestionCount } from "./TimeSlotsSelector";
 
 function AddResumeInterview() {
   const [openDialog, setOpenDialog] = useState(false);
   const [jobPosition, setJobPosition] = useState("");
   const [resumeFile, setResumeFile] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState("Interview Mitra");
+  const [selectedDuration, setSelectedDuration] = useState("30");
   const router = useRouter();
   const { user } = useUser();
 
@@ -34,7 +38,7 @@ function AddResumeInterview() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!resumeFile) {
       alert("Please upload a resume PDF first.");
       return;
@@ -46,7 +50,7 @@ function AddResumeInterview() {
       // 1. Parse the resume PDF
       const formData = new FormData();
       formData.append("resume", resumeFile);
-      
+
       const parseRes = await fetch("/api/parse-resume", {
         method: "POST",
         body: formData,
@@ -58,22 +62,22 @@ function AddResumeInterview() {
       }
 
       const resumeText = parseData.text;
+      const questionCount = getQuestionCount(selectedDuration);
 
-      // 2. Generate questions via Gemini
-      const questionCount = process.env.NEXT_PUBLIC_INTERVIEW_QUESTION_COUNT || 5;
-      const InputPrompt = `Job Position: ${jobPosition}. The candidate has provided the following resume text: "${resumeText.substring(0, 3000)}". Based on the target Job Position and the candidate's actual resume (experience, skills, projects), give me ${questionCount} highly tailored interview questions along with suggested answers in JSON format. Return ONLY a valid JSON array of objects with 'question' and 'answer' fields.`;
+      // 2. Generate questions via AI
+      const InputPrompt = `Job Position: ${jobPosition}. The candidate has provided the following resume text: "${resumeText.substring(0, 3000)}". Based on the target Job Position and the candidate's actual resume (experience, skills, projects), give me ${questionCount} highly tailored interview questions along with suggested answers in JSON format. Return ONLY a valid JSON array of objects with 'question' and 'answer' fields. Do not include any intro question — that will be added separately.`;
 
       const result = await chatSession.sendMessage(InputPrompt);
       const rawResponse = await result.response.text();
-      
+
       let jsonStart = rawResponse.indexOf("[");
       let jsonEnd = rawResponse.lastIndexOf("]");
-      
+
       if (jsonStart !== -1 && jsonEnd !== -1) {
         let cleanedResponse = rawResponse.substring(jsonStart, jsonEnd + 1);
         const MockJsonResp = JSON.parse(cleanedResponse);
 
-        // 3. Insert into DB
+        // 3. Insert into DB with avatar and duration
         const resp = await db
           .insert(MockInterview)
           .values({
@@ -84,6 +88,8 @@ function AddResumeInterview() {
             jobExperience: "From Resume",
             createdBy: user?.primaryEmailAddress?.emailAddress,
             createdAt: moment().format("DD-MM-yyyy"),
+            avatarName: selectedAvatar,
+            interviewDuration: selectedDuration,
           })
           .returning({ mockId: MockInterview.mockId });
 
@@ -115,30 +121,43 @@ function AddResumeInterview() {
         </div>
 
         <Dialog open={openDialog}>
-          <DialogContent className="max-w-2xl bg-gray-900 text-white border-cyan-500/30">
+          <DialogContent className="max-w-2xl bg-gray-900 text-white border-cyan-500/30 max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-2xl text-cyan-400">
                 Generate Interview from Resume
               </DialogTitle>
-              <DialogDescription>
+              <DialogDescription asChild>
                 <form onSubmit={onSubmit}>
                   <div>
-                    <h2 className="text-gray-300">
+                    <p className="text-gray-300 mt-1">
                       Upload your PDF resume and specify your target role to get personalized questions.
-                    </h2>
-                    <div className="mt-7 my-3">
+                    </p>
+
+                    {/* Avatar Selection */}
+                    <AvatarSelector
+                      selectedAvatar={selectedAvatar}
+                      onSelect={setSelectedAvatar}
+                    />
+
+                    {/* Time Slot Selection */}
+                    <TimeSlotsSelector
+                      selectedDuration={selectedDuration}
+                      onSelect={setSelectedDuration}
+                    />
+
+                    <div className="mt-5 my-3">
                       <label className="text-cyan-400 font-bold">
                         Target Job Role
                       </label>
                       <Input
-                        list="job-roles"
+                        list="job-roles-resume"
                         placeholder="Ex. Software Engineer, Data Scientist"
                         required
                         autoComplete="off"
                         onChange={(event) => setJobPosition(event.target.value)}
                         className="mt-2 bg-gray-800 text-white border-gray-700"
                       />
-                      <datalist id="job-roles">
+                      <datalist id="job-roles-resume">
                         <option value="Software Engineer" />
                         <option value="Frontend Developer" />
                         <option value="Backend Developer" />
@@ -168,7 +187,7 @@ function AddResumeInterview() {
                       />
                     </div>
                   </div>
-                  <div className="flex gap-5 justify-end">
+                  <div className="flex gap-5 justify-end mt-4">
                     <Button
                       variant="ghost"
                       onClick={() => setOpenDialog(false)}
