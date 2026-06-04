@@ -23,3 +23,12 @@ export const UserAnswer = pgTable('userAnswer', {
     userEmail: varchar('userEmail'),
     createdAt: varchar('createadAt'),
 })
+
+export const Users = pgTable('users', {
+    id: serial('id').primaryKey(),
+    email: varchar('email').notNull().unique(),
+    name: varchar('name').notNull(),
+    imageUrl: varchar('imageUrl'),
+    createdAt: varchar('createdAt').notNull(),
+    lastLoginAt: varchar('lastLoginAt').notNull(),
+})
