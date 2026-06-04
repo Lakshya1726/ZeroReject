@@ -12,6 +12,12 @@ import {
   Building2,
   GraduationCap,
   Lock,
+  Bot,
+  Timer,
+  MessageSquare,
+  ShieldCheck,
+  BarChart3,
+  RefreshCw,
 } from "lucide-react";
 
 const activeFeatures = [
@@ -19,7 +25,7 @@ const activeFeatures = [
     icon: <Briefcase className="w-8 h-8" />,
     title: "Role-Based Interview",
     description:
-      "Get interviewed for the exact role you're targeting. Enter your desired job position, tech stack, and years of experience — the AI crafts hyper-relevant technical and behavioral questions specific to that role.",
+      "Get interviewed for the exact role you're targeting. Enter your desired job position, tech stack, and years of experience — the AI crafts hyper-relevant questions specific to that role.",
     badge: "Live",
     badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
     glowColor: "rgba(34,197,94,0.15)",
@@ -38,7 +44,7 @@ const activeFeatures = [
     icon: <GraduationCap className="w-8 h-8" />,
     title: "Experience-Based Interview",
     description:
-      "Your experience level shapes everything. Whether you're a fresher or a 10-year veteran, the AI adjusts question complexity, depth, and expectations to match your background and challenge you appropriately.",
+      "Your experience level shapes everything. Whether you're a fresher or a 10-year veteran, the AI adjusts question complexity and depth to match your background.",
     badge: "Live",
     badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
     glowColor: "rgba(34,197,94,0.15)",
@@ -57,20 +63,135 @@ const activeFeatures = [
     icon: <FileText className="w-8 h-8" />,
     title: "Resume-Based Interview",
     description:
-      "Upload your resume and let the AI interview you based on your actual projects, skills, and internships. Get asked about your own experience — the most realistic interview preparation possible.",
+      "Upload your resume and let the AI interview you based on your actual projects, skills, and internships. The most realistic interview preparation possible.",
     badge: "Live",
     badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
     glowColor: "rgba(34,197,94,0.15)",
     borderColor: "border-green-500/30",
     points: [
       "Upload PDF resume for parsing",
-      "AI asks about your real projects",
-      "Tests your actual skills and tech",
+      "AI asks about your real projects & skills",
+      "Intro question always asked first",
       "Closest to a real interview experience",
     ],
     href: "/dashboard",
     cta: "Start Resume Interview",
     gradient: "from-purple-500 to-pink-400",
+  },
+  {
+    icon: <Bot className="w-8 h-8" />,
+    title: "5 AI Avatar Interviewers",
+    description:
+      "Choose from 5 uniquely named AI interviewers — each with their own personality, unique voice, and visual avatar. From warm mentors to sharp challengers.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "🎯 Interview Mitra — Friendly & Professional",
+      "🤝 DostAI — Casual & Encouraging",
+      "⚡ Taiyaar — Sharp & Challenging",
+      "💼 JobYaar — Corporate & Formal",
+      "📚 PrepGuru — Analytical & Thorough",
+    ],
+    href: "/dashboard",
+    cta: "Pick Your Interviewer",
+    gradient: "from-violet-500 to-cyan-400",
+  },
+  {
+    icon: <Timer className="w-8 h-8" />,
+    title: "Timed Interview Slots",
+    description:
+      "Select your session length from 15 to 60 minutes. The number of questions automatically scales based on your time slot — from a quick practice to a full simulation.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "⚡ 15 min → 5 questions (Quick Practice)",
+      "🎯 30 min → 10 questions (Standard Prep)",
+      "🔥 45 min → 15 questions (Deep Dive)",
+      "🏆 60 min → 20 questions (Full Simulation)",
+    ],
+    href: "/dashboard",
+    cta: "Choose Time Slot",
+    gradient: "from-orange-500 to-yellow-400",
+  },
+  {
+    icon: <MessageSquare className="w-8 h-8" />,
+    title: "Intro Question First",
+    description:
+      "Every interview begins with 'Please introduce yourself' — just like a real interview. This warms you up and helps the AI personalize the rest of the session.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "Standard intro question always first",
+      "Helps AI understand your background",
+      "Warm-up before technical questions",
+      "Scored generously to build confidence",
+    ],
+    href: "/dashboard",
+    cta: "Start an Interview",
+    gradient: "from-pink-500 to-rose-400",
+  },
+  {
+    icon: <ShieldCheck className="w-8 h-8" />,
+    title: "Confidence-First Scoring",
+    description:
+      "Our AI uses a 35–100/100 scoring floor so you always get encouraging feedback. Every attempt is rewarded, keywords are recognized, and scores lean generous to keep you motivated.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "Minimum score of 35/100 guaranteed",
+      "Strengths highlighted before improvements",
+      "Avatar-personalized feedback tone",
+      "Detailed model answers to learn from",
+    ],
+    href: "/dashboard",
+    cta: "See Your Score",
+    gradient: "from-emerald-500 to-teal-400",
+  },
+  {
+    icon: <BarChart3 className="w-8 h-8" />,
+    title: "Detailed Feedback Report",
+    description:
+      "After every interview, get a full performance report with per-question scores, strengths, areas of improvement, and model answers — all in a beautiful dashboard.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "Overall performance score out of 100",
+      "Per-question score breakdown",
+      "Strengths & improvement areas",
+      "Model answer for each question",
+    ],
+    href: "/dashboard",
+    cta: "View Sample Feedback",
+    gradient: "from-blue-500 to-indigo-400",
+  },
+  {
+    icon: <RefreshCw className="w-8 h-8" />,
+    title: "Retry & Redo Interviews",
+    description:
+      "Didn't record any answers? No problem. The feedback page lets you go back and retry the same interview. Practice as many times as you need until you feel confident.",
+    badge: "Live",
+    badgeColor: "bg-green-500/20 text-green-400 border-green-500/40",
+    glowColor: "rgba(34,197,94,0.15)",
+    borderColor: "border-green-500/30",
+    points: [
+      "Go back & record answers anytime",
+      "Warning before ending empty interviews",
+      "All previous interviews saved in dashboard",
+      "Track improvement across sessions",
+    ],
+    href: "/dashboard",
+    cta: "Go to Dashboard",
+    gradient: "from-slate-500 to-gray-400",
   },
 ];
 
@@ -79,7 +200,7 @@ const comingSoonFeatures = [
     icon: <Building2 className="w-8 h-8" />,
     title: "Company + Role Specific Questions",
     description:
-      "Pick a company like Google, Amazon, or Microsoft and your target role — the AI generates questions that mirror actual interview patterns from that specific company, including their known coding style, system design preferences, and culture-fit questions.",
+      "Pick a company like Google, Amazon, or Microsoft and your target role — the AI generates questions that mirror actual interview patterns from that specific company.",
     points: [
       "Google, Amazon, Microsoft & more",
       "Company-specific interview patterns",
@@ -92,11 +213,11 @@ const comingSoonFeatures = [
     icon: <FileText className="w-8 h-8" />,
     title: "Resume + JD Based Interview",
     description:
-      "Upload both your resume and the exact Job Description you are applying for — the AI cross-matches your profile against the JD and generates laser-focused questions that test exactly what the company is looking for in that role.",
+      "Upload both your resume and the exact Job Description — the AI cross-matches your profile against the JD and generates laser-focused questions targeting the exact role requirements.",
     points: [
       "Upload resume + job description together",
-      "AI identifies skill gaps between JD and resume",
-      "Questions targeting the exact role requirements",
+      "AI identifies skill gaps between JD & resume",
+      "Questions targeting exact role requirements",
       "Know what to prepare before the real interview",
     ],
     gradient: "from-cyan-500 to-purple-500",
@@ -105,7 +226,7 @@ const comingSoonFeatures = [
     icon: <Mic className="w-8 h-8" />,
     title: "Voice & Body Language Analysis",
     description:
-      "Go beyond just words — our AI analyzes your tone of voice, speaking pace, filler words, and facial expressions via webcam to give you a complete communication score alongside your technical answers.",
+      "Go beyond words — our AI will analyze your tone of voice, speaking pace, filler words, and facial expressions via webcam to give you a complete communication score.",
     points: [
       "Real-time tone and confidence scoring",
       "Filler word detection (umm, like, basically)",
@@ -141,9 +262,26 @@ export default function FeaturesPage() {
           </span>
         </h1>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto px-4">
-          From role-based AI interviews to resume-powered sessions — everything
-          you need to land your dream job with confidence.
+          From AI avatar interviewers to timed sessions, resume parsing, and
+          confidence-first scoring — everything you need to land your dream job.
         </p>
+
+        {/* Stats bar */}
+        <div className="flex flex-wrap justify-center gap-8 mt-10">
+          {[
+            { value: "9", label: "Live Features" },
+            { value: "5", label: "AI Avatars" },
+            { value: "4", label: "Time Slots" },
+            { value: "35+", label: "Min Score Always" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <div className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">
+                {stat.value}
+              </div>
+              <div className="text-xs text-gray-500 mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Active Features */}
@@ -152,7 +290,7 @@ export default function FeaturesPage() {
           <Star className="w-5 h-5 text-green-400" fill="currentColor" />
           <h2 className="text-2xl font-bold text-white">Live Features</h2>
           <span className="px-3 py-0.5 rounded-full bg-green-500/20 border border-green-500/40 text-green-400 text-xs font-bold">
-            Available Now
+            9 Available Now
           </span>
         </div>
 
